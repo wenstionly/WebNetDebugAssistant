@@ -22,6 +22,12 @@ let _ = {
             clients: clients,
             data: data
         });
+    },
+    sendLines(clients, lines) {
+        return common.post(_.baseUrl() + "send/lines", {
+            clients: clients,
+            lines: lines
+        })
     }
 };
 

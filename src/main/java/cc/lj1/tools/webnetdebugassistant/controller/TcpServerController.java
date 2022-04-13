@@ -55,4 +55,19 @@ public class TcpServerController {
         tcpServerHolder.sendData(sid, sendData.clients, rawData);
         return new Response("成功");
     }
+    @Data
+    public static class SendLinesData {
+        List<Long> clients;
+        List<String> lines;
+    }
+    @PostMapping("/send/lines")
+    public Object sendLinesToClient(@PathVariable("sid") String sid, @RequestBody SendLinesData linesData) throws Exception {
+        for(String line : linesData.lines) {
+            byte[] rawData = StringConvertUtils.fromHexString(line);
+            if(rawData == null)
+                throw new Exception("数据不正确");
+            tcpServerHolder.sendData(sid, linesData.clients, rawData);
+        }
+        return new Response("成功");
+    }
 }
