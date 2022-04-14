@@ -3,8 +3,13 @@
     <template slot="header">接收区</template>
     <div class="flex column h100p">
       <div class="flex row both-ends">
-        <el-checkbox size="mini" v-model="hexMode">按16进制显示</el-checkbox>
         <div>
+          <el-checkbox size="mini" v-model="reverse">倒序显示</el-checkbox>
+          <el-checkbox size="mini" v-model="hexMode">按16进制显示</el-checkbox>
+          <el-select v-model="encoding" size="mini" style="width:100px;">
+            <el-option value="utf8" label="UTF-8"></el-option>
+            <el-option value="gbk" label="GBK"></el-option>
+          </el-select>
           <el-checkbox size="mini" v-model="showAddress">显示地址</el-checkbox>
           <el-checkbox size="mini" v-model="showTime">显示时间</el-checkbox>
         </div>
@@ -13,7 +18,12 @@
         </div>
       </div>
       <div class="flex-stretch">
-        <data-view :value="dataList" :hex="hexMode" :showTime="showTime" :showAddress="showAddress"></data-view>
+        <data-view :value="dataList"
+                   :encoding="encoding"
+                   :hex="hexMode"
+                   :showTime="showTime"
+                   :showAddress="showAddress"
+                   :reverse="reverse"></data-view>
       </div>
     </div>
   </el-card>
@@ -39,7 +49,16 @@ export default {
     return {
       showAddress: true,
       showTime: true,
-      hexMode: false
+      reverse: false,
+      hexMode: false,
+
+      encodingList: [
+        {name: 'utf8', label: 'UTF-8'},
+        {name: 'gbk', label: 'GBK'},
+        {name: 'gb2312', label: 'GB2312'},
+        {name: 'gb18030', label: 'GB18030'},
+      ],
+      encoding: 'utf8',
     };
   },
   computed: {

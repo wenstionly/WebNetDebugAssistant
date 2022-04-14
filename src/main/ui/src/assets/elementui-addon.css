@@ -21,6 +21,7 @@
 }
 .el-card.stretch > .el-card__body {
     flex: 1;
+    overflow: hidden;
 }
 .el-card.stretch.scroll > .el-card__body {
     overflow-y: auto;

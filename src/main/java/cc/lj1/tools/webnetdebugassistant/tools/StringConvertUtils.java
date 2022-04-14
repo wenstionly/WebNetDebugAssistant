@@ -16,7 +16,8 @@ public class StringConvertUtils {
             return "";
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = offset, maxSize = Math.min(buffer.length, offset + size); i < maxSize; i++) {
-            stringBuilder.append(Integer.toHexString(buffer[i] & 0xFF));
+            stringBuilder.append(String.format("%02x", buffer[i] & 0xFF));
+//            stringBuilder.append(Integer.toHexString(buffer[i] & 0xFF));
         }
         return stringBuilder.toString();
     }

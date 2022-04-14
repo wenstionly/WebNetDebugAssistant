@@ -1,4 +1,5 @@
 import common from "@/api/common";
+import iconv from 'iconv-lite';
 
 let _ = {
     checkHex(hexStr) {
@@ -15,6 +16,20 @@ let _ = {
             arr.push(('0' + rawStr.charCodeAt(i).toString(16)).substr(-2));
         }
         return arr.join('');
+    },
+    formatHex(hexStr) {
+        const arr = [];
+        for (let i = 0, l = hexStr.length; i < l; i += 2) {
+            arr.push(hexStr.substr(i, 2));
+        }
+        return arr.join(' ');
+    },
+    fromHex(hexStr, encoding) {
+        const out = [];
+        for (let i = 0, l = hexStr.length; i < l; i += 2) {
+            out.push(Number.parseInt('0x' + hexStr.substr(i, 2)));
+        }
+        return iconv.decode(out, encoding);
     },
     baseUrl() {
         return common.getSid() + "/tcp/server/";
