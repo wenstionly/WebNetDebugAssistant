@@ -11,15 +11,23 @@ public class StringConvertUtils {
         return stringBuilder.toString();
     }
 
+    private final static char[] HEXDIGITS = {
+            '0', '1', '2', '3', '4', '5', '6', '7',
+            '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+    };
     public static String toHexString(byte[] buffer, int offset, int size) {
-        if(buffer == null)
+        if(buffer == null || offset >= buffer.length)
             return "";
-        StringBuilder stringBuilder = new StringBuilder();
-        for(int i = offset, maxSize = Math.min(buffer.length, offset + size); i < maxSize; i++) {
-            stringBuilder.append(String.format("%02x", buffer[i] & 0xFF));
-//            stringBuilder.append(Integer.toHexString(buffer[i] & 0xFF));
+        if(offset + size > buffer.length)
+            size = buffer.length - offset;
+        char[] out = new char[size << 1];
+        int outIdx = 0;
+        while(size-- > 0) {
+            final byte v = buffer[offset++];
+            out[outIdx++] = HEXDIGITS[(v >> 4) & 0x0F];
+            out[outIdx++] = HEXDIGITS[v & 0x0F];
         }
-        return stringBuilder.toString();
+        return new String(out, 0, out.length);
     }
 
     public static byte[] fromHexString(String string) {

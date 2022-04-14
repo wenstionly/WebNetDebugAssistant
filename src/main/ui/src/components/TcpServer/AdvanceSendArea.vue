@@ -1,6 +1,7 @@
 <template>
   <div class="flex column">
-    <div class="flex row right">
+    <div class="flex row right middle">
+      <el-checkbox size="mini" :disabled="sending" v-model="repeat">循环发送</el-checkbox>
       <el-button size="mini" type="primary" :disabled="sending" @click="handleSend">发送</el-button>
       <el-button size="mini" type="warning" :disabled="!sending" @click="handleStop">停止</el-button>
     </div>
@@ -75,6 +76,7 @@ export default {
 
       dataList: [],
 
+      repeat: false,
       sending: false,
       sendingRowKey: '', // 正在发送的数据在原始列表中的序号
       sendingIndex: -1, // 正在发送的数据在待发列表中的序号
@@ -221,8 +223,14 @@ export default {
               res => {
                 // 发送成功，移动到下一条数据
                 this.sendingIndex++;
-                if(this.sendingIndex >= this.sendingDataList.length)
-                  this.sendingIndex = 0;
+                if(this.sendingIndex >= this.sendingDataList.length) {
+                  if(this.repeat)
+                    this.sendingIndex = 0;
+                  else {
+                    this.handleStop();
+                    return;
+                  }
+                }
                 this.$set(this, 'sendingRowKey', this.sendingDataList[this.sendingIndex].id);
                 this.doSend();
               },
