@@ -27,7 +27,7 @@ public class StringConvertUtils {
             out[outIdx++] = HEXDIGITS[(v >> 4) & 0x0F];
             out[outIdx++] = HEXDIGITS[v & 0x0F];
         }
-        return new String(out, 0, out.length);
+        return new String(out);
     }
 
     public static byte[] fromHexString(String string) {
